@@ -1,0 +1,28 @@
+import openai
+import streamlit as st
+from gingerit.gingerit import GingerIt as gt
+#from textblob import TextBlob as tb
+st.title("SPELL AND GRAMMAR CORRECTOR")
+inputword=st.text_area("Text")
+#parser = gt()
+#r=parser.parse(inputword)
+#corrected_word = r['result']
+#text1 = tb(corrected_word)
+#result1=text1.correct()
+
+openai.api_key = "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"
+
+
+response = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
+    messages=[
+            {"role": "system", "content": "You are a chatbot"},
+            {"role": "user", "content": " convert the given paragraph or sentence or a word into grammatical and spelling error free"},
+            {"role": "user", "content":inputword}
+        ]
+)
+
+result = ''
+for choice in response.choices:
+    result += choice.message.content
+st.text_area("result",result)
